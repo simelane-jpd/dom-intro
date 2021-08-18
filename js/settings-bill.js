@@ -36,7 +36,7 @@ var callCost = 0;
 var smsCost = 0;
 var warningLevel = 0;
 var dangerLevel = 0;
-/////////////////function.upadateCost////////////////
+
 function costUpdate() {
 
 
@@ -91,5 +91,5 @@ function settingsBill() {
         number=dangerLevel;
     }
     settingTotalElem.innerHTML ="R"+number;
-}
+};
 addbtnsettings.addEventListener('click', settingsBill);
