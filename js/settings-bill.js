@@ -22,13 +22,10 @@
 // * check the value thresholds and display the total value in the right color.
 var radioBillAddButton = document.querySelector('.radioBillAddButton');
 var updateSettings = document.querySelector('.updateSettings');
-
 var callCostSettingElem = document.querySelector('.callCostSetting');
 var smsCostSettingElem = document.querySelector('.smsCostSetting');
 var warningLevelSettingElem = document.querySelector('.warningLevelSetting');
 var criticalLevelSettingElem = document.querySelector('.criticalLevelSetting');
-
-
 var callTotalSettingsElem = document.querySelector('.callTotalSettings');
 var smsTotalSettingElem = document.querySelector('.smsTotalSettings');
 var totalSettingsElem = document.querySelector('.totalSettings');
