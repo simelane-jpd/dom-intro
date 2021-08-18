@@ -65,7 +65,7 @@ function costUpdate() {
 }
 
 
-settingUpdate.addEventListener('click', costUpdate)
+settingUpdate.addEventListener('click', costUpdate);
 
 function settingsBill() {
 
@@ -91,5 +91,5 @@ function settingsBill() {
         number=dangerLevel;
     }
     settingTotalElem.innerHTML ="R"+number;
-};
+}
 addbtnsettings.addEventListener('click', settingsBill);
