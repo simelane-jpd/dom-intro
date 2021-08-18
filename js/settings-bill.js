@@ -64,6 +64,7 @@ function costUpdate() {
 
 }
 
+
 settingUpdate.addEventListener('click', costUpdate)
 
 function settingsBill() {
