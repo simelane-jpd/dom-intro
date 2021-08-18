@@ -20,78 +20,77 @@
 // * add nothing for invalid values that is not 'call' or 'sms'.
 // * display the latest total on the screen.
 // * check the value thresholds and display the total value in the right color.
-var radioBillAddButton = document.querySelector('.radioBillAddButton');
-var updateSettings = document.querySelector('.updateSettings');
-var callCostSettingElem = document.querySelector('.callCostSetting');
-var smsCostSettingElem = document.querySelector('.smsCostSetting');
-var warningLevelSettingElem = document.querySelector('.warningLevelSetting');
-var criticalLevelSettingElem = document.querySelector('.criticalLevelSetting');
-var callTotalSettingsElem = document.querySelector('.callTotalSettings');
-var smsTotalSettingElem = document.querySelector('.smsTotalSettings');
-var totalSettingsElem = document.querySelector('.totalSettings');
+const addbtnsettings = document.querySelector(".radioaddSettings");
+const settingUpdate = document.querySelector(".updateSettings");
+const settingCalltotalElem = document.querySelector(".callTotalSettings");
+const settingSmstotallElem = document.querySelector(".smsTotalSettings");
+const settingTotalElem = document.querySelector(".final");
+const costperCallelem = document.querySelector(".callCostSetting");
+const costperSmselem = document.querySelector(".smsCostSetting");
+const warningValueelem = document.querySelector(".warningLevelSetting");
+const dangerValueelem = document.querySelector(".criticalLevelSetting");
 
-var callsTotalSet = 0;
-var smsTotalSet = 0;
-var totalCost = 0;
+var settingCalltotal = 0;
+var settingSmstotal = 0;
+var callCost = 0;
+var smsCost = 0;
+var warningLevel = 0;
+var dangerLevel = 0;
+/////////////////function.upadateCost////////////////
+function costUpdate() {
 
 
-updateSettings.addEventListener('click', function(){
-
-   
-    var callCostSetting = callCostSettingElem.value;
-    if(parseInt(callCostSetting)<= 29)
-    {
-        callsTotalSet += parseInt(callCostSetting);
+    settingTotalElem.classList.remove("danger");
+    settingTotalElem.classList.remove("warning");
+    var costperCall = parseFloat(costperCallelem.value);
+    if (costperCall != 0) {
+        callCost = costperCall;
+        settingCalltotal = 0;
+    }
+    var costperSms = parseFloat(costperSmselem.value);
+    if (costperSms != 0) {
+        smsCost = costperSms;
+        settingSmstotal = 0;
     }
 
-    var smsCostSetting = smsCostSettingElem.value;
-    if(parseInt(smsCostSetting)<= 29)
-    {
-        smsTotalSet += parseInt(smsCostSetting);
+    var warningValue = parseFloat(warningValueelem.value);
+    if (warningValue != callCost - smsCost) {
+        warningLevel = warningValue;
     }
-    
-    var warningLevelSetting = warningLevelSettingElem.value;
-    if(parseInt(smsCostSetting)>= 30 || parseInt(smsCostSetting)< 60)
-    {
-        totalCost += parseInt(warningLevelSetting);
+    var dangerValue = parseFloat(dangerValueelem.value);
+    if (dangerValue != callCost - smsCost) {
+        dangerLevel = dangerValue;
     }
+
+}
+
+
+
+settingUpdate.addEventListener('click', costUpdate)
+
+function settingsBill() {
+
+    const checkedRadioBtnSettings = document.querySelector(".billItemTypeWithSettings:checked");
+    var inputItem = checkedRadioBtnSettings.value;
+    if (inputItem == "call") {
+        settingCalltotal += callCost;
+    }
+    else if (inputItem == "sms") {
+        settingSmstotal += smsCost;
+    }
+    settingCalltotalElem.innerHTML = settingCalltotal.toFixed(2);
+    settingSmstotallElem.innerHTML = settingSmstotal.toFixed(2);
+    var settingTotal = settingCalltotal + settingSmstotal;
+    var number=settingTotal.toFixed(2);
     
-    var criticalLevelSetting = criticalLevelSettingElem.value;;
-    if(parseInt(smsCostSetting)>= 60)
-    {
-        totalCost += parseInt(criticalLevelSetting);
-    } 
- 
-});
 
-
-radioBillAddButton.addEventListener('click', function(){
-         
-
-    var billItemTypeWithSettings = document.querySelector("input[name='billItemTypeWithSettings']:checked");
-        var billItemType = billItemTypeWithSettings.value
-        // billItemType will be 'call' or 'sms'
-      
-        if (billItemType === "call"){
-            callsTotalSet += 2.75
-        }
-        else if (billItemType === "sms"){
-            smsTotalSet += 0.75;
-        }
-        
-        //update the totals that is displayed on the screen.
-        callTotalSettingsElem.innerHTML = callsTotalSet.toFixed(2);
-        smsTotalSettingElem.innerHTML = smsTotalSet.toFixed(2);
-        totalCost = callsTotalSet + smsTotalSet;
-        totalSettingsElem.innerHTML = totalCost.toFixed(2);
-        
-        
-        if (totalCost >= 50){
-            // adding the danger class will make the text red
-            totalSettingsElem.classList.add("danger");
-        }
-        else if (totalCost >= 30){
-            totalSettingsElem.classList.add("warning");
-        }
-    
-});
+    if (settingTotal >= warningLevel && settingTotal < dangerLevel) {
+        settingTotalElem.classList.add("warning");
+    }
+    else if (settingTotal >= dangerLevel) {
+        settingTotalElem.classList.add("danger");
+        number=dangerLevel;
+    }
+    settingTotalElem.innerHTML ="R"+number;
+}
+addbtnsettings.addEventListener('click', settingsBill);
